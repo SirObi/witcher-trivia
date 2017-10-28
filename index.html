@@ -26,13 +26,22 @@
     <div class='row'>
       <div class='col-md-4'>
         <ul id="locations-list" data-bind='foreach: locationsList, visible: showLocations'>
-          <li><button data-bind='text: title, click: $parent.selectLocation'></button></li>
+          <li>
+            <input type='checkbox' data-bind='click: $parent.toggleMarker, checked: active'>
+            <button data-bind="text: title, click: $parent.selectLocation, style: { backgroundColor: active()  ? 'red' : 'gray' }"></button>
+          </li>
         </ul>
       </div>
       <div class='col-md-4'>
         <ul id="characters-list" data-bind='foreach: charactersList, visible: showCharacters'>
-          <li><button data-bind='text: title, click: $parent.selectLocation'></button></li>
+          <li>
+            <input type='checkbox' data-bind='click: $parent.toggleMarker, checked: active'>
+            <button data-bind="text: title, click: $parent.selectLocation, style: { backgroundColor: active() ? 'red' : 'gray' }"></button>
+          </li>
         </ul>
+        <div data-bind='with: currentMarker'>
+          <p data-bind='text: title'></p>
+        </div>
       </div>
       <div class='col-md-4'>
         <form>
@@ -42,17 +51,17 @@
           <input type='checkbox' data-bind='checked: showCharacters'>
         </form>
         <p>Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" /></p>
+
       </div>
     </div>
   </div>
 
   <div id="map">
   </div>
-
     <script>
       var map;
 
-      var markers = [];
+      var mapMarkers = [];
 
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
@@ -60,24 +69,12 @@
           zoom: 4
       });
 
-      var locations = [
-        {title: "Birka", location: {lat: 59.3352163, lng: 17.5425896}},
-        {title: "Yennefer", location: {lat: 51.6121678, lng: -3.0224666}},
-        {title: "Francesca Findabair", location: {lat: 53.6256191, lng: -8.2031646}},
-        {title: "Bronibor", location: {lat: 52.4268039, lng: 12.4034553}},
-        {title: "Dijkstra", location: {lat: 51.9280573, lng: 4.4203664}},
-        {title: "Esterad Thyssen", location: {lat: 51.4111465, lng: 6.8130815}},
-        {title: "Cintra", location: {lat: 38.8356907, lng: -9.5007252}},
-        {title: "..., elle'a?", location: {lat: 64.7555353, lng: 16.9006833}},
-        {title: "Maribor", location: {lat: 46.5536366, lng: 15.5745097}},
-      ];
-
       var largeInfoWindow = new google.maps.InfoWindow();
       var bounds = new google.maps.LatLngBounds();
 
-      for (var i = 0; i<locations.length; i++){
-        var position = locations[i].location;
-        var title = locations[i].title;
+      for (var i = 0; i<markers.length; i++){
+        var position = markers[i].location;
+        var title = markers[i].title;
 
         var marker = new google.maps.Marker({
           map: map,
@@ -86,7 +83,7 @@
           animation: google.maps.Animation.DROP,
           id: i
         });
-        markers.push(marker);
+        mapMarkers.push(marker);
         bounds.extend(marker.position);
         marker.addListener('click', function(){
           populateInfoWindow(this, largeInfoWindow)
@@ -97,7 +94,8 @@
       function populateInfoWindow(marker, infowindow){
         if(infowindow.marker != marker){
           infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
+          html = '<div>' + marker.title + '</div>'
+          infowindow.setContent(html);
           infowindow.open(map, marker);
           infowindow.addListener('closeclick', function(){
             infowindow.setMarker = null;
@@ -111,10 +109,11 @@
 
   <footer>
   </footer>
+  <script src="js/lib/knockout-3.2.0.js"></script>
+  <script src="js/app.js"></script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ_EKUiWMO35cymsNlEly0DmtAk8tiqps&v=3&callback=initMap">
   </script>
-  <script src="js/lib/knockout-3.2.0.js"></script>
-  <script src="js/app.js"></script>
+
 </body>
 </html>
