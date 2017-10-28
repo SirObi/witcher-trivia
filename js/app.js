@@ -63,6 +63,13 @@ var ViewModel = function(){
     return true;
   };
 
+  this.openMarker = function(toggledMarker){
+    markerID = toggledMarker.id() - 1;
+    console.log(markerID);
+    google.maps.event.trigger(mapMarkers[markerID], 'click');
+    return true;
+  };
+
   this.currentMarker = ko.observable( this.locationsList()[0] );
 }
 

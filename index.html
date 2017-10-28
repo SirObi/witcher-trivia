@@ -28,7 +28,7 @@
         <ul id="locations-list" data-bind='foreach: locationsList, visible: showLocations'>
           <li>
             <input type='checkbox' data-bind='click: $parent.toggleMarker, checked: active'>
-            <button data-bind="text: title, click: $parent.selectLocation, style: { backgroundColor: active()  ? 'red' : 'gray' }"></button>
+            <button data-bind="text: title, click: $parent.openMarker, style: { backgroundColor: active()  ? 'red' : 'gray' }"></button>
           </li>
         </ul>
       </div>
@@ -36,7 +36,7 @@
         <ul id="characters-list" data-bind='foreach: charactersList, visible: showCharacters'>
           <li>
             <input type='checkbox' data-bind='click: $parent.toggleMarker, checked: active'>
-            <button data-bind="text: title, click: $parent.selectLocation, style: { backgroundColor: active() ? 'red' : 'gray' }"></button>
+            <button data-bind="text: title, click: $parent.openMarker, style: { backgroundColor: active()  ? 'red' : 'gray' }"></button>
           </li>
         </ul>
         <div data-bind='with: currentMarker'>
@@ -94,7 +94,8 @@
       function populateInfoWindow(marker, infowindow){
         if(infowindow.marker != marker){
           infowindow.marker = marker;
-          html = '<div>' + marker.title + '</div>'
+          html = '<div>' + marker.title
+          html += '</div>'
           infowindow.setContent(html);
           infowindow.open(map, marker);
           infowindow.addListener('closeclick', function(){
