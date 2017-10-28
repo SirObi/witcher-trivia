@@ -28,25 +28,67 @@
 
     <script>
       var map;
-      // TODO: Complete the following function to initialize the map
+
+      var markers = [];
+
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 54.675605, lng: -4.4455836},
           zoom: 4
-        });
-        var birka = {lat: 59.3352163, lng: 17.5425896};
+      });
+
+      var locations = [
+        {title: "Birka", location: {lat: 59.3352163, lng: 17.5425896}},
+        {title: "Yennefer", location: {lat: 51.6121678, lng: -3.0224666}},
+        {title: "Francesca Findabair", location: {lat: 53.6256191, lng: -8.2031646}},
+        {title: "Bronibor", location: {lat: 52.4268039, lng: 12.4034553}},
+        {title: "Dijkstra", location: {lat: 51.9280573, lng: 4.4203664}},
+        {title: "Esterad Thyssen", location: {lat: 51.4111465, lng: 6.8130815}},
+        {title: "Cintra", location: {lat: 38.8356907, lng: -9.5007252}},
+        {title: "..., elle'a?", location: {lat: 60.8939464, lng: -0.2786168}},
+        {title: "Maribor", location: {lat: 46.5536366, lng: 15.5745097}},
+      ];
+      for (var i = 0; i<locations.length; i++){
+        var position = locations[i].location;
+        var title = locations[i].title;
+
         var marker = new google.maps.Marker({
-          position: birka,
           map: map,
-          title: "Birka"
+          position: position,
+          title: title,
+          animation: google.maps.Animation.DROP,
+          id: i
         });
-        var infowindow = new google.maps.InfoWindow({
-          content: 'Go away'
-        });
+        markers.push(marker);
         marker.addListener('click', function(){
-          infowindow.open(map, marker)
+          populateInfoWindow(this, largeInfoWindow)
         });
       }
+
+      function populateInfoWindow(marker, infowindow){
+        if(infowindow.marker != marker){
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
+          infowindow.addListener('closeclick', function(){
+            infowindow.setMarker(null);
+          });
+        }
+      }
+
+      var birka = {lat: 59.3352163, lng: 17.5425896};
+      var marker = new google.maps.Marker({
+        position: birka,
+        map: map,
+        title: "Birka"
+      });
+      var largeInfoWindow = new google.maps.InfoWindow({
+        content: 'Go away'
+      });
+      marker.addListener('click', function(){
+        infowindow.open(map, marker)
+      });
+    }
     </script>
 
 
