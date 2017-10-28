@@ -22,6 +22,29 @@
       </div>
     </nav>
   </header>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-md-4'>
+        <ul id="locations-list" data-bind='foreach: locationsList, visible: showLocations'>
+          <li><button data-bind='text: title, click: $parent.selectLocation'></button></li>
+        </ul>
+      </div>
+      <div class='col-md-4'>
+        <ul id="characters-list" data-bind='foreach: charactersList, visible: showCharacters'>
+          <li><button data-bind='text: title, click: $parent.selectLocation'></button></li>
+        </ul>
+      </div>
+      <div class='col-md-4'>
+        <form>
+          <p>Show Locations</p>
+          <input type='checkbox' data-bind='checked: showLocations'>
+          <p>Show Characters</p>
+          <input type='checkbox' data-bind='checked: showCharacters'>
+        </form>
+        <p>Filter: <input data-bind="value: filter, valueUpdate: 'afterkeydown'" /></p>
+      </div>
+    </div>
+  </div>
 
   <div id="map">
   </div>
@@ -45,9 +68,13 @@
         {title: "Dijkstra", location: {lat: 51.9280573, lng: 4.4203664}},
         {title: "Esterad Thyssen", location: {lat: 51.4111465, lng: 6.8130815}},
         {title: "Cintra", location: {lat: 38.8356907, lng: -9.5007252}},
-        {title: "..., elle'a?", location: {lat: 60.8939464, lng: -0.2786168}},
+        {title: "..., elle'a?", location: {lat: 64.7555353, lng: 16.9006833}},
         {title: "Maribor", location: {lat: 46.5536366, lng: 15.5745097}},
       ];
+
+      var largeInfoWindow = new google.maps.InfoWindow();
+      var bounds = new google.maps.LatLngBounds();
+
       for (var i = 0; i<locations.length; i++){
         var position = locations[i].location;
         var title = locations[i].title;
@@ -60,10 +87,12 @@
           id: i
         });
         markers.push(marker);
+        bounds.extend(marker.position);
         marker.addListener('click', function(){
           populateInfoWindow(this, largeInfoWindow)
         });
       }
+      map.fitBounds(bounds);
 
       function populateInfoWindow(marker, infowindow){
         if(infowindow.marker != marker){
@@ -71,23 +100,10 @@
           infowindow.setContent('<div>' + marker.title + '</div>');
           infowindow.open(map, marker);
           infowindow.addListener('closeclick', function(){
-            infowindow.setMarker(null);
+            infowindow.setMarker = null;
           });
         }
       }
-
-      var birka = {lat: 59.3352163, lng: 17.5425896};
-      var marker = new google.maps.Marker({
-        position: birka,
-        map: map,
-        title: "Birka"
-      });
-      var largeInfoWindow = new google.maps.InfoWindow({
-        content: 'Go away'
-      });
-      marker.addListener('click', function(){
-        infowindow.open(map, marker)
-      });
     }
     </script>
 
@@ -98,5 +114,7 @@
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ_EKUiWMO35cymsNlEly0DmtAk8tiqps&v=3&callback=initMap">
   </script>
+  <script src="js/lib/knockout-3.2.0.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
