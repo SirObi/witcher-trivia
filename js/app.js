@@ -37,7 +37,6 @@ var ViewModel = function(){
   this.locationsList = ko.observableArray([]);
   this.charactersList = ko.observableArray([]);
   this.showLocations = ko.observable(true);
-  this.showCharacters = ko.observable(true);
 
   markers.forEach(function(marker){
     if(marker.type == "place"){
@@ -64,6 +63,34 @@ var ViewModel = function(){
     google.maps.event.trigger(mapMarkers[markerID], 'click');
     return true;
   };
+
+  this.toggleAllLocations = function(locationsList, mapMarkers){
+    if(locationsList[0].active()){
+      locationsList.forEach(function(location){
+        location.active(false);
+        window.mapMarkers[location.id()-1].setMap(null);
+      });
+    } else {
+      locationsList.forEach(function(location){
+        location.active(true);
+        window.mapMarkers[location.id()-1].setMap(map);
+      });
+    }
+  }
+
+  this.toggleAllCharacters = function(charactersList, mapMarkers){
+    if(charactersList[0].active()){
+      charactersList.forEach(function(location){
+        location.active(false);
+        window.mapMarkers[location.id()-1].setMap(null);
+      });
+    } else {
+        charactersList.forEach(function(location){
+        location.active(true);
+        window.mapMarkers[location.id()-1].setMap(map);
+      });
+    }
+  }
 
   this.currentMarker = ko.observable( this.locationsList()[0] );
 }

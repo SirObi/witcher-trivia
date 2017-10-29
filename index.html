@@ -29,14 +29,11 @@
   </header>
   <div class='container'>
     <div class='row'>
-      <div class='col-md-4'>
-        <form>
-          <p>Show Locations</p>
-          <input type='checkbox' data-bind='checked: showLocations'>
-          <p>Show Characters</p>
-          <input type='checkbox' data-bind='checked: showCharacters'>
-        </form>
-
+      <div class='col-md-4' data-bind="with: locationsList">
+          <button data-bind='click: $root.toggleAllLocations'>Show Locations</button>
+      </div>
+      <div class='col-md-4' data-bind="with: charactersList">
+          <button data-bind='click: $root.toggleAllCharacters'>Show Characters</button>
       </div>
     </div>
   </div>
