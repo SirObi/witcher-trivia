@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <script type=text/javascript src="./js/jquery.js"></script>
+  <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./css/style.css" />
   <title>The Witcher Trivia Map of Europe</title>
@@ -19,6 +20,10 @@
   <header>
     <nav class="navbar navbar-default">
       <div class="container-fluid">
+        <div class="col-lg-12 text-center">
+          <h2>Welcome to this Witcher fanpage</h2>
+          <h5>Click on the map to discover some of the inspirations behind the book saga and PC game!</h5>
+        </div>
       </div>
     </nav>
   </header>
@@ -39,10 +44,15 @@
             <button data-bind="text: title, click: $parent.openMarker, style: { backgroundColor: active()  ? 'red' : 'gray' }"></button>
           </li>
         </ul>
-        <div data-bind='with: currentMarker'>
-          <p data-bind='text: title'></p>
-        </div>
       </div>
+      <div class='col-md-4'>
+      <ul data-bind="foreach: locationsList">
+        <li><a href="#" data-bind="text: title, click: $parent.toggleMarker"></a></li>
+      </ul>
+      <ul data-bind="foreach: charactersList">
+        <li><a href="#" data-bind="text: title, click: $parent.toggleMarker"></a></li>
+      </ul>
+    </div>
       <div class='col-md-4'>
         <form>
           <p>Show Locations</p>
@@ -66,27 +76,57 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 54.675605, lng: -4.4455836},
-          zoom: 4
+          zoom: 4,
+          styles: [
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+                featureType: 'landscape.natural',
+                elementType: 'geometry',
+                stylers: [{color: '#dfd2ae'}]
+            }
+          ]
       });
 
-      var largeInfoWindow = new google.maps.InfoWindow();
+      var largeInfoWindow = new google.maps.InfoWindow({
+        maxwidth: 350
+      });
       var bounds = new google.maps.LatLngBounds();
+
+      var image = {
+        url: 'witcher.png'
+      };
 
       for (var i = 0; i<markers.length; i++){
         var position = markers[i].location;
         var title = markers[i].title;
+        var authorsNote = markers[i].authorsNote;
+        var inspiredBy = markers[i].realWorld;
+        var imageURL = markers[i].imageURL;
+        console.log(imageURL);
 
         var marker = new google.maps.Marker({
           map: map,
           position: position,
+          icon: image,
           title: title,
           animation: google.maps.Animation.DROP,
-          id: i
+          id: i,
+          imageURL: imageURL,
+          inspiredBy: "Real world inspiration: " + inspiredBy,
+          authorsNote: authorsNote
         });
         mapMarkers.push(marker);
         bounds.extend(marker.position);
         marker.addListener('click', function(){
           populateInfoWindow(this, largeInfoWindow)
+          currentMkr = this;
+          this.setAnimation(google.maps.Animation.BOUNCE);
+          setTimeout(function(){ currentMkr.setAnimation(null); }, 750);
         });
       }
       map.fitBounds(bounds);
@@ -94,7 +134,10 @@
       function populateInfoWindow(marker, infowindow){
         if(infowindow.marker != marker){
           infowindow.marker = marker;
-          html = '<div>' + marker.title
+          html = '<div><h2>' + marker.title + '</h2>'
+          html += '<p>' + marker.inspiredBy + '</p>'
+          html += marker.imageURL + '<br /><br />'
+          html += '<p>' + marker.authorsNote + '</p>'
           html += '</div>'
           infowindow.setContent(html);
           infowindow.open(map, marker);
@@ -112,6 +155,7 @@
   </footer>
   <script src="js/lib/knockout-3.2.0.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/wiki.js"></script>
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCQ_EKUiWMO35cymsNlEly0DmtAk8tiqps&v=3&callback=initMap">
   </script>
