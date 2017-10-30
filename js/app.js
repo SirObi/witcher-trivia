@@ -48,6 +48,7 @@ var ViewModel = function(){
 
   //Tracks last marker opened through menu
   this.currentMarker = ko.observable( (this.locationsList()[0]) );
+  wiki(this.currentMarker.realWorld);
 
   //Hides and shows markers by modifying data
   //available to Google Maps API.
@@ -108,4 +109,3 @@ var ViewModel = function(){
 
 //Initialize ViewModel, make initial call to Wikimedia
 ko.applyBindings(new ViewModel());
-wiki();
