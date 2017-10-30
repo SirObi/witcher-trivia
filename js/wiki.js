@@ -1,3 +1,5 @@
+//Fetches link to related content on Wikipedia
+//based on the marker selected through the menu
 function wiki(){
   phrase = $('#inspiration').text();
   var witcherURL =
