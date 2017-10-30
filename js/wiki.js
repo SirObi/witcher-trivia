@@ -12,6 +12,7 @@ function wiki(phrase){
       viewModel.currentMarker().wikiURL(response[3][0])
     },
     error: function(){
-      result = "Sorry, Wikipedia content not found"}
+      viewModel.currentMarker().wikiURL(null)
+      window.alert("Sorry, Wikipedia content not found")}
     });
   }
