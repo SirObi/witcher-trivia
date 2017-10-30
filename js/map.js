@@ -47,6 +47,7 @@ for (var i = 0; i<markers.length; i++){
     animation: google.maps.Animation.DROP,
     id: i,
     imageURL: imageURL,
+    realWorld: inspiredBy,
     inspiredBy: "Real world inspiration: " + inspiredBy,
     authorsNote: authorsNote
   });
@@ -55,6 +56,7 @@ for (var i = 0; i<markers.length; i++){
   marker.addListener('click', function(){
     populateInfoWindow(this, largeInfoWindow)
     currentMkr = this;
+    wiki(currentMkr.realWorld);
     this.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){ currentMkr.setAnimation(null); }, 750);
   });
