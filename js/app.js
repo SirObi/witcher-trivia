@@ -48,7 +48,7 @@ var ViewModel = function(){
 
   //Tracks last marker opened through menu
   this.currentMarker = ko.observable( (this.locationsList()[0]) );
-  wiki(this.currentMarker.realWorld);
+  wiki(self.currentMarker().realWorld());
 
   //Hides and shows markers by modifying data
   //available to Google Maps API.
@@ -70,7 +70,7 @@ var ViewModel = function(){
   //Opens marker on map and makes a call to Wikimedia API
   this.openMarker = function(toggledMarker){
     self.currentMarker(toggledMarker);
-    window.wiki();
+    window.wiki(self.currentMarker().realWorld());
     markerID = toggledMarker.id() - 1;
     google.maps.event.trigger(mapMarkers[markerID], 'click');
     return true;
