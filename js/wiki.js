@@ -9,8 +9,7 @@ function wiki(phrase){
     url: witcherURL,
     dataType: "jsonp",
     success: function(response) {
-      $('#inspiration').append(
-        '<a href="'+ response[3][0] + '"> Link</a>')},
+      viewModel.currentMarker().wikiURL(response[3][0])},
     error: function(){
       result = "Sorry, Wikipedia content not found"}
     });

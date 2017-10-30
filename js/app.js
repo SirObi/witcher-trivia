@@ -108,4 +108,5 @@ var ViewModel = function(){
 };
 
 //Initialize ViewModel, make initial call to Wikimedia
-ko.applyBindings(new ViewModel());
+viewModel = new ViewModel()
+ko.applyBindings(viewModel);
