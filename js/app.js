@@ -40,9 +40,9 @@ var ViewModel = function(){
   //Populates observable arrays with data from database
   markers.forEach(function(marker){
     if(marker.type == "place"){
-      self.locationsList.push( new Location(marker) )
+      self.locationsList.push( new Location(marker) );
     } else {
-      self.charactersList.push( new Character(marker) )
+      self.charactersList.push( new Character(marker) );
     }
   });
 
@@ -55,7 +55,7 @@ var ViewModel = function(){
   //unless visible.
   this.toggleMarker = function(toggledMarker){
     markerID = toggledMarker.id() - 1;
-    if(mapMarkers[markerID].getMap() == null){
+    if(mapMarkers[markerID].getMap() === null){
       mapMarkers[markerID].setMap(map);
       toggledMarker.active(true);
     } else {
@@ -103,8 +103,8 @@ var ViewModel = function(){
         window.mapMarkers[location.id()-1].setMap(map);
       });
     }
-  }
-}
+  };
+};
 
 //Initialize ViewModel, make initial call to Wikimedia
 ko.applyBindings(new ViewModel());
