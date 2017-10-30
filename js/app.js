@@ -66,7 +66,7 @@ var ViewModel = function(){
     window.wiki(self.currentMarker().realWorld());
     markerID = toggledMarker.id() - 1;
     google.maps.event.trigger(mapMarkers[markerID], 'click');
-    return true
+    return true;
   };
 
   // Hide/show all locations
@@ -101,5 +101,5 @@ var ViewModel = function(){
 };
 
 //Initialize ViewModel, make initial call to Wikimedia
-viewModel = new ViewModel()
+viewModel = new ViewModel();
 ko.applyBindings(viewModel);
