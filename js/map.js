@@ -37,7 +37,6 @@ for (var i = 0; i<markers.length; i++){
   var authorsNote = markers[i].authorsNote;
   var inspiredBy = markers[i].realWorld;
   var imageURL = markers[i].imageURL;
-  console.log(imageURL);
 
   var marker = new google.maps.Marker({
     map: map,
@@ -57,6 +56,8 @@ for (var i = 0; i<markers.length; i++){
     populateInfoWindow(this, largeInfoWindow)
     currentMkr = this;
     wiki(currentMkr.realWorld);
+    updatedMkr = viewModel.markersList()[currentMkr.id];
+    viewModel.currentMarker(updatedMkr);
     this.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){ currentMkr.setAnimation(null); }, 750);
   });

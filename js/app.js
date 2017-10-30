@@ -36,13 +36,16 @@ var ViewModel = function(){
   var self = this;
   this.locationsList = ko.observableArray([]);
   this.charactersList = ko.observableArray([]);
+  this.markersList = ko.observableArray([]);
 
   //Populates observable arrays with data from database
   markers.forEach(function(marker){
     if(marker.type == "place"){
       self.locationsList.push( new Location(marker) );
+      self.markersList.push( new Location(marker) );
     } else {
       self.charactersList.push( new Character(marker) );
+      self.markersList.push( new Location(marker) );
     }
   });
 

@@ -9,7 +9,8 @@ function wiki(phrase){
     url: witcherURL,
     dataType: "jsonp",
     success: function(response) {
-      viewModel.currentMarker().wikiURL(response[3][0])},
+      viewModel.currentMarker().wikiURL(response[3][0])
+    },
     error: function(){
       result = "Sorry, Wikipedia content not found"}
     });
