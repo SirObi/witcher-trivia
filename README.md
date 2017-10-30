@@ -18,3 +18,9 @@ In the same directory, run:
 
 Open your browser and go to:  
 `localhost:8000`  
+
+
+### Special thanks  
+The Google Map in the above app is able to play nice with Bootstrap.   
+This is thanks to a solution shared by Andre Gagnon:  
+https://andregagnon.com/code-example/gettting-google-maps-javascript-api-v3-run-bootstrap-3-0
